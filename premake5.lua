@@ -1,6 +1,7 @@
 project "GLFW"
 	kind "StaticLib"
 	language "C"
+	staticruntime "On"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -88,3 +89,10 @@ project "GLFW"
 		runtime "Release"
 		optimize "on"
         symbols "off"
+
+	filter {"toolset:not gcc", "toolset:not clang"}
+		buildoptions
+		{
+			"/wd4047", -- 'function': 'DWORD' differs in levels of indirection from 'void *'
+			"/wd4024", -- 'AdjustWindowRectEx': different types for formal and actual parameter 4
+		}
